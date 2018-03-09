@@ -1,6 +1,6 @@
 #include "outermeSDL.h"
 #define IMG_INIT_FLAGS IMG_INIT_PNG
-// ++ outermeSDL version 1.2 - last update 1/1/2018 ++
+// ++ outermeSDL version 1.21 - last update 3/9/2018 ++
 
 
 int initSDL(char* windowName, char* tilesetFilePath, char* fontFilePath, int windowWidth, int windowHeight, int fontSize)
