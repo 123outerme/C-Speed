@@ -7,5 +7,5 @@ typedef struct {
 
 typedef struct {
     sprite spr;
-    vector vec;
+    vector vect;
 } player;
