@@ -1,21 +1,22 @@
 @set folder=C:\Program Files\Git\tmp\pulls
-@cd %folder%\C-Speed
-@IF EXIST "%folder%\C-Speed\.git" (
-	cd /d "%folder%\C-Speed\.git"
+@set project=Gateway-to-Legend
+@cd %folder%\%project%
+@IF EXIST "%folder%\%project%\.git" (
+	cd /d "%folder%\%project%\.git"
 	for /F "delims=" %%i in ('dir /b') do (rmdir "%%i" /s/q || del "%%i" /s/q)
 	cd ..
 )
 
 @git init
-@git remote add origin https://github.com/123outerme/C-Speed.git
+@git remote add origin https://github.com/123outerme/%project%.git
 git pull origin master --allow-unrelated-histories
-@ROBOCOPY "%folder%\C-Speed" "C:\Program Files\Git\code\C-Speed" /MIR
-@IF EXIST "%folder%\C-Speed" (
-	@cd /d "%folder%\C-Speed"
+@ROBOCOPY "%folder%\%project%" "C:\Program Files\Git\code\%project%" /MIR
+@IF EXIST "%folder%\%project%" (
+	@cd /d "%folder%\%project%"
 	@for /F "delims=" %%i in ('dir /b') do (rmdir "%%i" /s/q || del "%%i" /s/q)
 )
-@ROBOCOPY "C:\Program Files\Git\code\C-Speed" %~dp0 *.c *.h *.txt *.ico *.rc *.png *.bat *.html *.css *.md /MIR /XD dirs .git GtL GtL-bin media
-@cd "C:\Program Files\Git\code\C-Speed"
+@ROBOCOPY "C:\Program Files\Git\code\%project%" %~dp0 *.c *.h *.txt *.ico *.rc *.png *.bat *.html *.css *.md /MIR /XD dirs .git GtL GtL-bin media
+@cd "C:\Program Files\Git\code\%project%"
 @git init
 @git add -A
 @cd %~dp0

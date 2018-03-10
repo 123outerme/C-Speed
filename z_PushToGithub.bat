@@ -1,5 +1,6 @@
-@ROBOCOPY %cd% "C:\Program Files\Git\code\C-Speed" *.c *.h *.txt *.ico *.bin *.rc *.bat *.png *.ttf /MIR /XD dirs .git media
-@cd "C:\Program Files\Git\code\C-Speed"
+@set project=C-Speed
+@ROBOCOPY %cd% "C:\Program Files\Git\code\%project%" *.c *.h *.txt *.ico *.bin *.rc *.bat *.png *.ttf *.ogg *.mp4 *.html *.css *.md /MIR /XD dirs .git GtL GtL-bin media
+@cd "C:\Program Files\Git\code\%project%"
 @set commitMessage=""
 @IF [%1]==[] (
 	set commitMessage=Updated
@@ -9,7 +10,7 @@
 @git init
 @git add .
 @git commit -m %commitMessage%
-@git remote add origin https://github.com/123outerme/C-Speed
+@git remote add origin https://github.com/123outerme/%project%
 @git push origin master
 @cd %~dp0
 @pause Done! Press anything to continue.

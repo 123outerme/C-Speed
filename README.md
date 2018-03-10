@@ -1,17 +1,17 @@
-# C-Speed
-CSpeed, a game about running really fast and punching.
-The object of the game is to run as fast as possible, and maintain that speed while smashing enemies to bits. Use moves to increase your speed at the tradeoff of them not doing as much damage, or use moves that slow you down a bit but pack a wallop.
+# Gateway-to-Legend
+A Puzzle-RPG hybrid game. More details soon, but in a nutshell it started as a remake of an earlier game I made
+that became it's own thing with its own ideas. The core gameplay involves solving puzzles, collecting money, and defeating bosses.
 
 ## >> Legal Stuff <<
 
-The word "I" refers to the creator of C-Speed, Stephen Policelli.
+The word "I" refers to the creator of Gateway to Legend, Stephen Policelli.
 I did not write or modify the graphics library, SDL2, any of its extensions or previous versions, or any
 of its code.
 I did not create the font file PX_437_ITT_BIOS_X.ttf. However, I did slightly modify it, adding in one
 character.
-I originally wrote the code for C-Speed.
+I originally wrote the code behind Gateway to Legend.
 
-### > C-Speed <
+### > Gateway to Legend <
 MIT License
 
 Copyright (c) 2017 TildeCubed
