@@ -1,5 +1,5 @@
 @set project=C-Speed
-@ROBOCOPY %cd% "C:\Program Files\Git\code\%project%" *.c *.h *.txt *.ico *.bin *.rc *.bat *.png *.ttf *.ogg *.mp4 *.html *.css *.md /MIR /XD dirs .git GtL GtL-bin media
+@ROBOCOPY %cd% "C:\Program Files\Git\code\%project%" *.c *.h *.txt *.ico *.bin *.rc *.bat *.png *.ttf *.ogg *.mp4 *.html *.css *.md /MIR /XD dirs .git media
 @cd "C:\Program Files\Git\code\%project%"
 @set commitMessage=""
 @IF [%1]==[] (

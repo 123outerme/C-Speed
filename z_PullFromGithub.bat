@@ -1,5 +1,5 @@
 @set folder=C:\Program Files\Git\tmp\pulls
-@set project=Gateway-to-Legend
+@set project=C-Speed
 @cd %folder%\%project%
 @IF EXIST "%folder%\%project%\.git" (
 	cd /d "%folder%\%project%\.git"
@@ -15,7 +15,7 @@ git pull origin master --allow-unrelated-histories
 	@cd /d "%folder%\%project%"
 	@for /F "delims=" %%i in ('dir /b') do (rmdir "%%i" /s/q || del "%%i" /s/q)
 )
-@ROBOCOPY "C:\Program Files\Git\code\%project%" %~dp0 *.c *.h *.txt *.ico *.rc *.png *.bat *.html *.css *.md /MIR /XD dirs .git GtL GtL-bin media
+@ROBOCOPY "C:\Program Files\Git\code\%project%" %~dp0 *.c *.h *.txt *.ico *.rc *.png *.bat *.html *.css *.md /MIR /XD dirs .git media
 @cd "C:\Program Files\Git\code\%project%"
 @git init
 @git add -A
