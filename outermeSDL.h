@@ -1,7 +1,7 @@
 #ifndef OUTERMESDL_H_INCLUDED
 #define OUTERMESDL_H_INCLUDED
 
-/* ++ outermeSDL version 1.22 - last update 3/9/2018 ++
+/* ++ outermeSDL version 1.4 - last update 1/1/2018 ++
 
  error code -5: Sounds failed to load
  error code -4: TTFs failed to load
@@ -27,7 +27,7 @@
 #include <stdlib.h>        //This is included for calloc, rand(), and a lot of other stuff
 #include <math.h>          //This is included for log10
 #include <time.h>          //This is included for time() as the seed for rand()
-
+#include <ctype.h>         //This is included for toupper, etc.
 
 #define bool char
 #define false 0
@@ -54,11 +54,12 @@
 typedef enum
 {
     type_na,  //0
-    type_chest,  //1
-    type_npc,  //2
-    type_boss,  //3
-    type_player,  //4
-    type_enemy  //5
+    type_generic, //1
+    type_chest,  //2
+    type_npc,  //3
+    type_boss,  //4
+    type_player,  //5
+    type_enemy  //6
 } entityType;
 
 typedef struct
@@ -84,6 +85,7 @@ void drawTile(int id, int xCoord, int yCoord, int width, int angle, SDL_Renderer
 void drawATilemap(SDL_Texture* texture, int map[][WIDTH_IN_TILES], int startX, int startY, int endX, int endY, int hideTileNumOf, bool updateScreen);  //draws a tilemap from a given tileset texture.
 void drawATile(SDL_Texture* texture, int id, int xCoord, int yCoord, int width, int height, int angle, SDL_RendererFlip flip);  //draws a tile from a given tileset texture
 void drawText(char* input, int x, int y, int maxW, int maxH, SDL_Color color, bool render);  //draws text to the screen
+SDL_Keycode getKey();  //gets a keycode that was pressed, or none if none was pressed during collection
 SDL_Keycode waitForKey();  //waits for a player to press any key, returns the key that was pressed
 void closeSDL();  //closes SDL and related stuff
 int checkArrayForIVal(int value, int array[], size_t arraySize);  //finds an int in an int array
@@ -95,7 +97,7 @@ char* readLine(char* filePath, int lineNum, char** output);  //reads a certain l
 
 char* intToString(int value, char * result);  //turns inputted int into a string
 int digits(int num);  //gets the number of digits an int has
-int pwrOf10(int power);  //gets 10 ^ input
+int toPowerOf10(int power);  //gets 10 ^ input
 void* freeThisMem(void* x);  //frees memory of any type/object/whatever and nulls its pointer.
 
 SDL_Window* mainWindow;
@@ -103,6 +105,8 @@ SDL_Surface* mainScreen;
 SDL_Texture* tilesetTexture;
 SDL_Renderer* mainRenderer;
 TTF_Font* mainFont;
+char mainFilePath[MAX_PATH], mapFilePath[MAX_PATH - 9], tileFilePath[MAX_PATH - 9],
+saveFilePath[MAX_PATH - 9], scriptFilePath[MAX_PATH - 9];
 int tilemap[HEIGHT_IN_TILES][WIDTH_IN_TILES];
 Mix_Chunk* audioArray[MAX_SOUNDS];
 Mix_Music* musicArray[MAX_MUSIC];

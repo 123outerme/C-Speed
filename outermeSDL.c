@@ -1,7 +1,6 @@
 #include "outermeSDL.h"
 #define IMG_INIT_FLAGS IMG_INIT_PNG
-
-// ++ outermeSDL version 1.22 - last update 3/9/2018 ++
+// ++ outermeSDL version 1.2 - last update 1/1/2018 ++
 
 
 int initSDL(char* windowName, char* tilesetFilePath, char* fontFilePath, int windowWidth, int windowHeight, int fontSize)
@@ -61,7 +60,7 @@ int initSDL(char* windowName, char* tilesetFilePath, char* fontFilePath, int win
             }
             else
             {
-                SDL_SetRenderDrawBlendMode(mainRenderer, SDL_BLENDMODE_NONE);
+                SDL_SetRenderDrawBlendMode(mainRenderer, SDL_BLENDMODE_BLEND);
                 SDL_SetRenderDrawColor(mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
                 SDL_RenderSetLogicalSize(mainRenderer, windowWidth, windowHeight);
                 SDL_RenderClear(mainRenderer);
@@ -161,23 +160,6 @@ void initSprite(sprite* spr, int x, int y, int w, int h, int tileIndex, int angl
 	spr->type = type;
 }
 
-void drawTilemap(int startX, int startY, int endX, int endY, bool updateScreen)
-{
-    for(int dy = startY; dy < endY; dy++)
-        for(int dx = startX; dx < endX; dx++)
-            drawTile(tilemap[dy][dx], dx * TILE_SIZE, dy * TILE_SIZE, TILE_SIZE, 0, SDL_FLIP_NONE);
-    if (updateScreen)
-        SDL_RenderPresent(mainRenderer);
-}
-
-void drawTile(int id, int xCoord, int yCoord, int width, int angle, SDL_RendererFlip flip)
-{
-    //printf("%d , %d\n", id  / 8, (id % 8));
-    if (canDrawTiles)
-        SDL_RenderCopyEx(mainRenderer, tilesetTexture, &((SDL_Rect) {.x = (id / 8) * width, .y = (id % 8) * width, .w = width, .h = width}), &((SDL_Rect) {.x = xCoord, .y = yCoord, .w = width, .h = width}), angle, &((SDL_Point) {.x = width / 2, .y = width / 2}), flip);
-    //SDL_RenderPresent(mainRenderer);
-}
-
 void drawATilemap(SDL_Texture* texture, int map[][WIDTH_IN_TILES], int startX, int startY, int endX, int endY, int hideTileNumOf, bool updateScreen)
 {
     for(int dy = startY; dy < endY; dy++)
@@ -209,6 +191,21 @@ void drawText(char* input, int x, int y, int maxW, int maxH, SDL_Color color, bo
     }
 }
 
+SDL_Keycode getKey()
+{
+    SDL_Event e;
+    SDL_Keycode keycode = 0;
+    while(SDL_PollEvent(&e) != 0)
+    {
+        if(e.type == SDL_QUIT)
+            keycode = -1;
+        else
+            if(e.type == SDL_KEYDOWN)
+                keycode = e.key.keysym.sym;
+    }
+    return keycode;
+}
+
 SDL_Keycode waitForKey()
 {
     SDL_Event e;
@@ -235,15 +232,25 @@ void closeSDL()
 {
     TTF_CloseFont(mainFont);
     //TTF_CloseFont(smallFont);
-	SDL_DestroyTexture(tilesetTexture);
-	SDL_FreeSurface(mainScreen);
-    SDL_DestroyWindow(mainWindow);
-    SDL_DestroyRenderer(mainRenderer);
+	if (tilesetTexture)
+        SDL_DestroyTexture(tilesetTexture);
+	if (mainScreen)
+        SDL_FreeSurface(mainScreen);
+    if (mainWindow)
+        SDL_DestroyWindow(mainWindow);
+    if (mainRenderer)
+        SDL_DestroyRenderer(mainRenderer);
     for(int i = 0; i < MAX_SOUNDS; i++)
-        Mix_FreeChunk(audioArray[i]);
+    {
+        if (audioArray[i])
+            Mix_FreeChunk(audioArray[i]);
+    }
 
     for(int i = 0; i < MAX_MUSIC; i++)
-        Mix_FreeMusic(musicArray[i]);
+    {
+        if (musicArray[i])
+            Mix_FreeMusic(musicArray[i]);
+    }
 
     TTF_Quit();
     IMG_Quit();
@@ -254,7 +261,7 @@ void closeSDL()
 int checkArrayForIVal(int value, int array[], size_t arraySize)
 {
     int found = -1;
-    for(int i = 0; i < arraySize; i++)
+    for(int i = 0; i < (int) arraySize; i++)
     {
         if (value == array[i])
         {
@@ -267,12 +274,12 @@ int checkArrayForIVal(int value, int array[], size_t arraySize)
 
 char* removeChar(char input[], char removing, size_t length, bool foreToBack)
 {
-    static char sansChar[255];
+    static char sansChar[260];
     int i;
     length = strlen(input);
     if (foreToBack)
     {
-        for(i = 0; i < length; i++)
+        for(i = 0; i < (int) length; i++)
         {
             //printf("%c at %d\n", input[i], i);
             if (input[i] != removing)
@@ -281,9 +288,9 @@ char* removeChar(char input[], char removing, size_t length, bool foreToBack)
         if (i == 0)
             return input;
         int y = 0;
-        for(int x = i; x < length; x++)
+        for(int x = i; x < (int) length; x++)
             sansChar[y++] = input[x];
-        sansChar[length] = '\0';
+        sansChar[y] = '\0';
     }
     else
     {
@@ -291,13 +298,13 @@ char* removeChar(char input[], char removing, size_t length, bool foreToBack)
         {
             if (input[i] != removing)
                 break;
-            //printf("%c\n", input[i]);
+            //printf("%c at %d\n", input[i], i);
         }
         for(int x = 0; x < i + 1; x++)
             sansChar[x] = input[x];
-        sansChar[i + 1 < length ? i + 1 : length] = '\0';
+        sansChar[i + 1 < (int) length ? i + 1 : (int) length] = '\0';
     }
-    //printf("%s at %d\n", sansChar, sansChar);'
+    //printf("%s at %d\n", sansChar, sansChar);
     return sansChar;
 }
 
@@ -394,16 +401,16 @@ char* intToString(int value, char* result)
 	int usedVal = 0;
 	for (int i = digit; i > 0; i--)
 	{
-		int x = (value - usedVal) / pwrOf10(i - 1);
+		int x = (value - usedVal) / toPowerOf10(i - 1);
 		result[digit - i] = (char) x + '0';
 		//printf("result[%d] = (%d) / %d = %d = character %c\n", digit - i, value - usedVal, pwrOf10(i - 1), x, result[digit - i]);
-		usedVal = usedVal + (result[digit - i] - '0') * pwrOf10(i - 1);
+		usedVal = usedVal + (result[digit - i] - '0') * toPowerOf10(i - 1);
 		//printf("usedVal = itself + %d * %d = %d\n", (int) result[digit - i] - '0', pwrOf10(i - 1), usedVal);
 	}
 	if (negFlag)
     {
-        char negative[1];
-        strcpy(negative, "-");
+        char negative[digit + 1];
+        negative[0] = '-';
         strcat(negative, result);
         strcpy(result, negative);
     }
@@ -416,7 +423,7 @@ int digits(int num)
         num *= -1;
 	return 1 + log10(num);
 }
-int pwrOf10(int power)
+int toPowerOf10(int power)
 {
 	int val = 1;
 	int i = power;
