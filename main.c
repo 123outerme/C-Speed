@@ -2,6 +2,10 @@
 
 #define AMENU_MAIN_THEME (SDL_Color) {AMENU_MAIN_BGCOLOR, 0xFF}, (SDL_Color) {AMENU_MAIN_TITLECOLOR2, 0xFF}, (SDL_Color) {AMENU_MAIN_TITLECOLOR1, 0xFF},  (SDL_Color) {AMENU_MAIN_TEXTCOLOR, 0xFF}
 
+int mainLoop();
+
+player runner;
+
 int main(int argc, char* argv[])
 {
     int launchCode = argc;
@@ -17,6 +21,9 @@ int main(int argc, char* argv[])
         SDL_RenderClear(mainRenderer);
         drawText("This is a test!", 0, 0, dispMode.w, dispMode.h, (SDL_Color) {0, 0, 0, 0xFF}, true);
     }
+    initVector(&(runner.vect), 0, 0);
+    initSprite(&(runner.spr), 0, 0, 0, 0, 0, 0, SDL_FLIP_NONE, type_player);
+    initPlayer(&runner, runner.spr, runner.vect);
     int gameCode = 0;
     bool quit = false;
     while(!quit)
@@ -39,4 +46,15 @@ int main(int argc, char* argv[])
         }
     }
     return launchCode;
+}
+
+int mainLoop()
+{
+    bool quit = false;
+    while(!quit)
+    {
+        SDL_SetRenderDrawColor(mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderClear(mainRenderer);
+        quit = true;
+    }
 }
