@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
                 int code = aMenu(tilesetTexture, 0, "C-Speed", (char*[3]) {"Start", "Options", "Quit"}, 3, 0, AMENU_MAIN_THEME, true, true, NULL);
                 if (code == 3 || code == -1)
                     quit = true;
-                gameCode = code + 1;
+                gameCode = code;
             }
             break;
         case 1:
@@ -51,10 +51,27 @@ int main(int argc, char* argv[])
 int mainLoop()
 {
     bool quit = false;
+    int exitCode = 0;
+    SDL_Event e;
     while(!quit)
     {
         SDL_SetRenderDrawColor(mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(mainRenderer);
-        quit = true;
+        SDL_RenderPresent(mainRenderer);
+
+        while(SDL_PollEvent(&e) != 0)
+        {
+            if(e.type == SDL_QUIT)
+            {
+                quit = true;
+                exitCode = -1;
+            }
+            else
+                if(e.type == SDL_KEYDOWN)
+                {
+                    quit = true;
+                }
+        }
     }
+    return exitCode;
 }
