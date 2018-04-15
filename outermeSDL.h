@@ -42,7 +42,7 @@
 #define FRAMERATE 60
 #define SCREEN_WIDTH TILE_SIZE * 20
 #define SCREEN_HEIGHT TILE_SIZE * 15
-#define TILE_SIZE 48
+#define TILE_SIZE 32
 #define WIDTH_IN_TILES SCREEN_WIDTH / TILE_SIZE
 #define HEIGHT_IN_TILES SCREEN_HEIGHT / TILE_SIZE
 
@@ -105,8 +105,9 @@ SDL_Surface* mainScreen;
 SDL_Texture* tilesetTexture;
 SDL_Renderer* mainRenderer;
 TTF_Font* mainFont;
+int screenWidth, screenHeight;
 char mainFilePath[MAX_PATH], mapFilePath[MAX_PATH - 9], tileFilePath[MAX_PATH - 9],
-saveFilePath[MAX_PATH - 9], scriptFilePath[MAX_PATH - 9];
+saveFilePath[MAX_PATH - 9];
 int tilemap[HEIGHT_IN_TILES][WIDTH_IN_TILES];
 Mix_Chunk* audioArray[MAX_SOUNDS];
 Mix_Music* musicArray[MAX_MUSIC];

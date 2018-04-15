@@ -43,6 +43,8 @@ int initSDL(char* windowName, char* tilesetFilePath, char* fontFilePath, int win
         mainFont = NULL;
         canDrawText = true;
         canDrawTiles = true;
+        screenWidth = windowWidth;
+        screenHeight = windowHeight;
         mainWindow = SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
         if (!mainWindow)
         {

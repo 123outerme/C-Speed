@@ -13,6 +13,21 @@ void initPlayer(player* playerPtr, sprite spr, vector vect)
     playerPtr->vect = vect;
 }
 
+void initConfig(char* filePath)
+{
+    SC_UP = SDL_SCANCODE_W;
+    SC_DOWN = SDL_SCANCODE_S;
+    SC_LEFT = SDL_SCANCODE_A;
+    SC_RIGHT = SDL_SCANCODE_D;
+    SC_ATTACK = SDL_SCANCODE_LSHIFT;
+    SC_INTERACT = SDL_SCANCODE_SPACE;
+    SC_MENU = SDL_SCANCODE_ESCAPE;
+    FPS = 60;
+    soundVolume = MIX_MAX_VOLUME;
+    musicVolume = MIX_MAX_VOLUME;
+    saveConfig(filePath);
+}
+
 int aMenu(SDL_Texture* texture, int cursorID, char* title, char** optionsArray, const int options, int curSelect, SDL_Color bgColor, SDL_Color titleColorUnder, SDL_Color titleColorOver, SDL_Color textColor, bool border, bool isMain, void (*extraDrawing)(void))
 {
     const int MAX_ITEMS = 9;

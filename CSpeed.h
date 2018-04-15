@@ -21,6 +21,7 @@ typedef struct {
 
 vector* initVector(vector* vecPtr, double x, double y);
 void initPlayer(player* playerPtr, sprite spr, vector vect);
+void initConfig(char* filePath);
 int aMenu(SDL_Texture* texture, int cursorID, char* title, char** optionsArray, const int options, int curSelect, SDL_Color bgColor, SDL_Color titleColorUnder, SDL_Color titleColorOver, SDL_Color textColor, bool border, bool isMain, void (*extraDrawing)(void));  //quick and dirty menu
 void loadConfig(char* filePath);
 void saveConfig(char* filePath);
